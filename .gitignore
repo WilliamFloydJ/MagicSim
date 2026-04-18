@@ -1,0 +1,7 @@
+node_modules/
+client/dist/
+server/mtg_decks.db
+server/mtg_decks.db-wal
+server/mtg_decks.db-shm
+server/uploads/
+.env
