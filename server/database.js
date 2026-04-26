@@ -1,7 +1,17 @@
 const Database = require("better-sqlite3");
+const fs = require("fs");
 const path = require("path");
 
-const db = new Database(path.join(__dirname, "mtg_decks.db"));
+const defaultDbPath = path.join(__dirname, "mtg_decks.db");
+const dbPath = process.env.SQLITE_DB_PATH
+  ? path.resolve(process.env.SQLITE_DB_PATH)
+  : defaultDbPath;
+
+fs.mkdirSync(path.dirname(dbPath), { recursive: true });
+
+const db = new Database(dbPath);
+
+console.log(`[database] SQLite path: ${dbPath}`);
 
 db.pragma("journal_mode = WAL");
 db.pragma("foreign_keys = ON");
