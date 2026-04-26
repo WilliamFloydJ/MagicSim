@@ -609,9 +609,14 @@ app.get("/api/scryfall/search", async (req, res) => {
   }
 });
 
+// Always return JSON for unknown API routes.
+app.use("/api", (_req, res) => {
+  res.status(404).json({ error: "API endpoint not found" });
+});
+
 // --- Catch-all: serve React app for any non-API route ---
 if (fs.existsSync(clientBuildPath)) {
-  app.get("*", (_req, res) => {
+  app.get(/^\/(?!api(?:\/|$)).*/, (_req, res) => {
     res.sendFile(path.join(clientBuildPath, "index.html"));
   });
 }
